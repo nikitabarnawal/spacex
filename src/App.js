@@ -9,6 +9,7 @@ import Wrapper from "./layout/wrapper";
 import GridWrapper from "./layout/gridWrapper";
 import LaunchCard from "./components/lauch-card";
 
+
 const MainWrapper = styled.main`
   display: block;
   position: relative;
@@ -49,6 +50,7 @@ function App() {
   }, []);
 
   const fetchLaunches = async () => {
+    setLoading(true);
     console.log(52);
     const result = await axios(
       "https://api.spacexdata.com/v4/launches?limit=10"
@@ -59,17 +61,16 @@ function App() {
   }
 
   const fetchRockets = async () => {
+    setLoading(true);
     const result = await axios(
       "https://api.spacexdata.com/v4/rockets?limit=10"
     );
-    console.log(65, result);
     setData({ rockets: result.data });
     setType('rockets');
     setLoading(false);
   }
 
   return (
-    console.log(72, data, type) ||
     <MainWrapper>
       <Header />
       <Section>
@@ -77,8 +78,8 @@ function App() {
       </Section>
       <Section>
         <ContentSelector>
-          <button onClick={fetchLaunches}>Launches</button>
-          <button onClick={fetchRockets}>rockets</button>
+          <button onClick={() => fetchLaunches()}>Launches</button>
+          <button onClick={() => fetchRockets()}>rockets</button>
         </ContentSelector>
       </Section>
       <Section>
