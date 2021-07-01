@@ -8,6 +8,7 @@ import Section from "./layout/section";
 import Wrapper from "./layout/wrapper";
 import GridWrapper from "./layout/gridWrapper";
 import LaunchCard from "./components/lauch-card";
+import { useLocation } from "react-router-dom";
 
 
 const MainWrapper = styled.main`
@@ -27,6 +28,7 @@ const ContentSelector = styled.div`
     padding: 10px;
     min-width: 100px;
     margin-right: 10px;
+    cursor:pointer;
   }
 `;
 
@@ -35,26 +37,37 @@ function App() {
   const [type, setType] = useState('launches')
   const [loading, setLoading] = useState(true);
 
+  const location = useLocation();
+
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios(
-        "https://api.spacexdata.com/v4/launches/past?limit=10"
-      );
+    const { pathname } = location;
+    if (pathname === '/launches') {
+      fetchLaunches();
+    }
+    else if (pathname === '/rockets') {
+      fetchRockets();
+    }
+    else {
+      fetchData();
+    }
+  }, [location]);
 
-      console.log(result.data);
-
-      setData({ launches: result.data });
-      setLoading(false);
-    };
-    fetchData();
-  }, []);
+  const fetchData = async () => {
+    setLoading(true);
+    const result = await axios(
+      "http://localhost:4000?limit=50"
+    );
+    setData({ launches: result.data });
+    setType('launches');
+    setLoading(false);
+  };
 
   const fetchLaunches = async () => {
     setLoading(true);
-    console.log(52);
     const result = await axios(
-      "https://api.spacexdata.com/v4/launches?limit=10"
+      "http://localhost:4000/launches?limit=50"
     );
+    console.log(70, result);
     setData({ launches: result.data });
     setType('launches');
     setLoading(false);
@@ -63,7 +76,7 @@ function App() {
   const fetchRockets = async () => {
     setLoading(true);
     const result = await axios(
-      "https://api.spacexdata.com/v4/rockets?limit=10"
+      "http://localhost:4000/rockets?limit=5"
     );
     setData({ rockets: result.data });
     setType('rockets');
@@ -78,8 +91,8 @@ function App() {
       </Section>
       <Section>
         <ContentSelector>
-          <button onClick={() => fetchLaunches()}>Launches</button>
-          <button onClick={() => fetchRockets()}>rockets</button>
+          <button onClick={fetchLaunches}>Launches</button>
+          <button onClick={fetchRockets}>rockets</button>
         </ContentSelector>
       </Section>
       <Section>

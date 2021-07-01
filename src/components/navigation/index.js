@@ -1,11 +1,14 @@
 import * as React from "react";
 import theme from "../../variables";
+import App from "../../App";
 
 import NavItem from "./nav-item";
 import styled from "styled-components";
 
 import Burger, { BurgerMenu } from "./burger";
 import { device } from "../../helpers";
+
+import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 
 const navData = [
   { home: "rockets" },
@@ -32,24 +35,21 @@ const NavWrapper = styled.nav`
   }
 `;
 
+const linkStyle = {
+  margin: "1rem",
+  textDecoration: "none",
+  color: 'white',
+  padding: "20px",
+};
+
 const navigation = () => {
   return (
     <>
       <NavWrapper>
         <NavList>
-          {navData.map((value, index) => {
-            const title = Object.keys(value)[0];
-            const url = value[title];
-
-            return (
-              <NavItem
-                key={index}
-                title={title}
-                url={url}
-                color={theme.white}
-              />
-            );
-          })}
+          <Link to="/" style={linkStyle}>Home</Link>
+          <Link to="/launches" style={linkStyle}>Launches</Link>
+          <Link to="/rockets" style={linkStyle}>Rockets</Link>
         </NavList>
         <Burger />
       </NavWrapper>
