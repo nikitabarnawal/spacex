@@ -1,12 +1,12 @@
-import * as React from "react";
 import styled from "styled-components";
 import theme from "../../variables";
-
+import React, { useState, useEffect } from "react";
 import Navigation from "../navigation";
 import Logo, { LogoWrapper } from "../logo";
 import Wrapper, { WrapperFrame } from "../../layout/wrapper";
+import Search from "../Search";
 
-const Header = styled.header`
+const HeaderWrapper = styled.header`
   background-color: ${theme.blackTransparent};
   position: fixed;
   width: 100%;
@@ -22,17 +22,22 @@ const Header = styled.header`
   }
 `;
 
-const header = (props) => {
+const Header = (props) => {
   return (
     <>
-      <Header>
+      <HeaderWrapper>
         <Wrapper>
           <Logo background={"transparent"} color={theme.white} />
+          <Search
+            isFocused
+            search={props.searchInput}
+            onSearchInput={props.handleSearchInput}
+          />
           <Navigation />
         </Wrapper>
-      </Header>
+      </HeaderWrapper>
     </>
   );
 };
 
-export default header;
+export default Header;

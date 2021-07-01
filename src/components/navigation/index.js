@@ -8,7 +8,7 @@ import styled from "styled-components";
 import Burger, { BurgerMenu } from "./burger";
 import { device } from "../../helpers";
 
-import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const navData = [
   { home: "rockets" },

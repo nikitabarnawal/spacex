@@ -36,6 +36,7 @@ function App() {
   const [data, setData] = useState();
   const [type, setType] = useState('launches')
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState(localStorage.getItem("search") || '');
 
   const location = useLocation();
 
@@ -55,7 +56,7 @@ function App() {
   const fetchData = async () => {
     setLoading(true);
     const result = await axios(
-      "http://localhost:4000?limit=50"
+      "http://localhost:4000?limit=5"
     );
     setData({ launches: result.data });
     setType('launches');
@@ -83,9 +84,25 @@ function App() {
     setLoading(false);
   }
 
+  const handleSearchInput = (e) => {
+    setSearch(e.target.value);
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    axios(
+      `http://localhost:4000/search?search=${search}`
+    ).then(response => {
+      setData({ launches: response.data });
+      setType("launches");
+      setLoading(false);
+    })
+    localStorage.setItem("search", search);
+  }, [search]);
+
   return (
     <MainWrapper>
-      <Header />
+      <Header handleSearchInput={handleSearchInput} searchInput={search} />
       <Section>
         <Hero />
       </Section>
