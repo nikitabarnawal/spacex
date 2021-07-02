@@ -1,6 +1,8 @@
-# Getting Started with Create React App
+# SpaceX
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Uses
+- express
+- react js
 
 ## Available Scripts
 
