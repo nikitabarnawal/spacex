@@ -68,7 +68,6 @@ function App() {
     const result = await axios(
       "http://localhost:4000/launches?limit=50"
     );
-    console.log(70, result);
     setData({ launches: result.data });
     setType('launches');
     setLoading(false);
